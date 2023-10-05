@@ -9,7 +9,7 @@ import java.util.Properties;
 public class MysqlConnector {
     private Connection conn = null;
 
-    final String pro_src = "~/single-bienergy-mst/app/src/main/java/com/master/autogram/properties/Setting.properties";
+    final String pro_src = "\\home\\ubuntu\\single-bienergy-mst\\app\\src\\main\\java\\com\\master\\autogram\\properties\\Setting.properties";
     private static Properties db_setting = null;
 
     public MysqlConnector() {
