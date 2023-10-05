@@ -5,14 +5,17 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketAddress;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import com.google.common.net.InetAddresses;
 import com.master.autogram.calculate.parameter.HeartBeatCombine;
 import com.master.autogram.calculate.parameter.LoginCombine;
 import com.master.autogram.calculate.parameter.ReadCurrentCombine;
@@ -24,7 +27,7 @@ import com.master.autogram.utils.db.MysqlConnector;
 
 public class SocketCommunicationController {
     public ServerSocket server;
-    private static int port = 2020;
+    private static int port = 5852;
     private StringBuilder certification;
     private StringBuilder login;
     private StringBuilder start;
@@ -38,11 +41,14 @@ public class SocketCommunicationController {
     private byte[] heart;
     public ArrayList<byte[]> values;
     public int loginCount = 0;
+    private InetSocketAddress address;
 
     // 생성자
     public SocketCommunicationController(MysqlConnector connector) {
         try {
-            server = new ServerSocket(port);
+            address = new InetSocketAddress(InetAddress.getByName("0.0.0.0"), port);
+            server = new ServerSocket();
+            server.bind(address);
             socket = server.accept();
             socket.setSoTimeout(100000000);
             certification = new StringBuilder();
